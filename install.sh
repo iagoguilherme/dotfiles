@@ -84,7 +84,7 @@ log "Criando symlinks..."
 backup_if_exists() {
     local target="$1"
     if [[ -e "$target" && ! -L "$target" ]]; then
-        warn "Fazendo backup de $target → $target.bak"
+        warn "Fazendo backup de $target -> $target.bak"
         mv "$target" "$target.bak"
     fi
 }
@@ -101,24 +101,44 @@ ln -sf "$DOTFILES/zshrc" "$HOME/.zshrc"
 ok "zshrc lincado."
 
 # ─────────────────────────────────────────────────
-# 6. Resumo final
+# 6. Permissao de Acessibilidade (para Cmd+Shift+Espaco)
 # ─────────────────────────────────────────────────
 
 echo ""
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+log "Configurando permissao de Acessibilidade..."
+warn "O macOS exige clique humano pra ativar essa permissao (protecao contra malware)."
+echo ""
+echo "  Vou abrir o painel de Acessibilidade pra voce."
+echo "  La, basta:"
+echo "    1. Procurar 'Ghostty' na lista (ou clicar no '+' e adicionar)"
+echo "    2. Ativar o toggle"
+echo ""
+read -p "  Pressione ENTER pra abrir o painel (ou Ctrl+C pra pular)..."
+
+# Abre o painel de Acessibilidade direto
+open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+
+# ─────────────────────────────────────────────────
+# 7. Resumo final
+# ─────────────────────────────────────────────────
+
+echo ""
+echo -e "${GREEN}=============================================${NC}"
 echo -e "${GREEN}  Setup completo! 🎉${NC}"
-echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${GREEN}=============================================${NC}"
 echo ""
-echo "Próximos passos manuais:"
+echo "Proximos passos:"
 echo ""
-echo "  1. Abrir o Ghostty (Spotlight → 'Ghostty' ou: open -a Ghostty)"
+echo "  1. Abrir o Ghostty (Spotlight -> 'Ghostty' ou: open -a Ghostty)"
 echo ""
-echo "  2. Pra o atalho 'Cmd + Shift + Espaço' funcionar globalmente:"
-echo "     Ajustes do Sistema → Privacidade e Segurança → Acessibilidade"
-echo "     → ativar o toggle do Ghostty"
-echo "     → reiniciar o Ghostty (Cmd + Q e abrir de novo)"
+echo "  2. Se ainda nao ativou no painel que abri, ative agora:"
+echo "     Privacidade e Seguranca -> Acessibilidade -> ativar Ghostty"
 echo ""
-echo "  3. Backups das configs antigas (se existirem) ficaram com sufixo .bak"
+echo "  3. Reiniciar o Ghostty (Cmd + Q e abrir de novo) pra permissao pegar"
+echo ""
+echo "  4. Testar o atalho global Cmd + Shift + Espaco em qualquer app"
+echo ""
+echo "  5. Backups das configs antigas (se existirem) ficaram com sufixo .bak"
 echo "     Confira que tudo funciona e apague depois com:"
 echo "     rm ~/.config/ghostty/config.bak ~/.zshrc.bak"
 echo ""
